@@ -24,10 +24,32 @@ class TreeNode
         List <TreeNode<DataType>*> children;
 
     public:
-        // Create a new empty child node
+        // Create an unnamed and empty node (without any data)
         TreeNode ()
         {
-            data = new DataType ();
+            
+        }
+
+
+        // Creates an empty node (without any data) wit the given name
+        TreeNode (String name)
+        {
+            SetName (name);
+        }
+
+
+        // Creates an unnamed node with the given data
+        TreeNode (DataType* data)
+        {
+            SetData (data);
+        }
+
+
+        // Creates a node with the given name and data
+        TreeNode (String name, DataType* data)
+        {
+            SetName (name);
+            SetData (data);
         }
 
 
@@ -41,33 +63,51 @@ class TreeNode
 
 
         // /* TODO
-        // Adds a new empty child
+        // Adds a new empty and unnamed child
         TreeNode<DataType>* AddNewNode ()
         {
             TreeNode<DataType>* newNode = new TreeNode<DataType>();
             newNode->AttachTo (this);
+            return newNode;
         }
 
 
         // Adds a new empty child with the given name
         TreeNode<DataType>* AddNewNode (String name)
         {
-            return nullptr;
+            TreeNode<DataType>* newNode = new TreeNode<DataType> (name);
+            newNode->AttachTo (this);
+            return newNode;
+        }
+
+
+        // Adds a new unnamed child with the given data
+        TreeNode<DataType>* AddNewNode (DataType* data)
+        {
+            TreeNode<DataType>* newNode = new TreeNode<DataType> (data);
+            newNode->AttachTo (this);
+            return newNode;
         }
 
 
         // Adds a new child with the given name and data
         TreeNode<DataType>* AddNewNode (String name, DataType* data)
         {
-            return nullptr;
+            TreeNode<DataType>* newNode = new TreeNode<DataType> (name, data);
+            newNode->AttachTo (this);
+            return newNode;
         }
 
 
+        /*
+        // This isn't needed i think...
+        //
         // Adds the given node to this one children
         TreeNode<DataType>* AddNode (TreeNode<DataType>* node) 
         {
             return nullptr;
         }
+        */
 
 
         // Attach this node to the given one
@@ -78,21 +118,37 @@ class TreeNode
                 Detach ();
             }
 
-            node->children->push_back (this);
+            node->children.push_back (this);
             this->parent = node;
+            return node;
         }
 
 
         // Returns a child node given its index
         TreeNode<DataType>* Child (int index)
         {
-            return nullptr;
+            if (!HasChild (index))
+            {
+                return nullptr;
+            }
+
+            return children.at (index);
         }
         
         
         // Returns a child node given its name
         TreeNode<DataType>* Child (String name)
         {
+            for (int c = 0; c < children.size(); c ++)
+            {
+                TreeNode<DataType>* c_child = children.at (c);
+                
+                if (c_child->Name() == name)
+                {
+                    return c_child;
+                }
+            }
+
             return nullptr;
         }
         
@@ -100,7 +156,7 @@ class TreeNode
         // Returns how many children this node has
         int ChildCount ()
         {
-            return -1;
+            return children.size ();
         }
 
 
@@ -109,7 +165,7 @@ class TreeNode
         {
             for (int c = 0; c < children.size(); c ++)
             {
-                if (children[c] == child)
+                if (children.at(c) == child)
                 {
                     return c;
                 }
@@ -122,7 +178,7 @@ class TreeNode
         // Returns this node children
         List< TreeNode<DataType>* >& Children ()
         {
-            return children
+            return children;
         }
 
 
@@ -152,8 +208,15 @@ class TreeNode
         }
         
         
-        // Returns this node data
-        DataType* Data ()
+        // Returns this node data (value)
+        DataType& Data ()
+        {
+            return *data;
+        }
+
+
+        // Returns this node data (pointer)
+        DataType* DataPtr ()
         {
             return data;
         }
@@ -207,27 +270,40 @@ class TreeNode
         // from the parent children list.
         TreeNode<DataType>* Detach ()
         {
-            TreeNode<DataType>* oldParent = parent;
-
-            if (oldParent != nullptr)
+            if (IsRoot ())
             {
-
+                // This is the root node. Cannot be detached.
+                return nullptr;
             }
+ 
+            this->parent->removeChild (this);
+            this->parent = nullptr;
+
+            return this;
         };
 
 
         // Detach the given node
         // This will both unlink it from its parent and remove
         // from the parent children list.
-        void DetachNode (TreeNode<DataType>* node)
+        TreeNode<DataType>* DetachNode (TreeNode<DataType>* node)
         {
             if (node != nullptr)
             {
-                node->Dettach ();
+                if (node->Dettach () == nullptr)
+                {
+                    // The given node is a root node. Nothing to detach.
+                    return nullptr;
+                }
+
+                return node;
             }
         }
 
 
+    private:
+        // Returns the first node that matchs the given name
+        // in the given tree
         TreeNode<DataType>* findNode (TreeNode<DataType>* fromNode, 
                                       const String& name)
         {
@@ -250,6 +326,8 @@ class TreeNode
         }
 
 
+        // Returns all the nodes wit the given name
+        // in the given tree
         List<TreeNode<DataType>*> findNodes (TreeNode<DataType>* fromNode,
                                              const String& name)
         {
@@ -257,7 +335,7 @@ class TreeNode
 
             if (fromNode->name == name)
             {
-                foundNodes.push_back(fromNode);
+                foundNodes.push_back (fromNode);
             }
 
             for (TreeNode<DataType>* child : fromNode->children)
@@ -265,51 +343,62 @@ class TreeNode
                 List<TreeNode<DataType>*> foundChildren = 
                     findNodes (child, name);
                 
-                foundNodes.insert (foundNodes.end(), 
-                                   foundChildren.begin(), 
-                                   foundChildren.end());
+                foundNodes.insert (foundNodes.end (), 
+                                   foundChildren.begin (), 
+                                   foundChildren.end ());
             }
 
             return foundNodes;
         }
 
 
+    public:
+        // Returns the first node that matchs the given name
+        // in the current tree
         TreeNode<DataType>* FindNode (String nodeName)
         {
             return findNode (this, nodeName);
         }
 
 
+        // Returns all existing nodes with the given name in the
+        // current tree
         List<TreeNode<DataType>*> FindNodes (String nodeName)
         {
             return findNodes (this, nodeName);
         }
 
 
+        // Executes a function for each of the given node tree
         void ForEachNode (void (*action) (TreeNode<DataType>* node ))
         {
             // TODO
         }
 
 
+        // Returns if this node has a child in the given index
         bool HasChild (int childIndex)
         {
             return ((childIndex >= 0) && (childIndex < ChildCount()));
         }
 
 
+        // Returns if this node has parent
         bool HasParent ()
         {
             return !IsRoot ();
         }
 
 
+        // Returns if this node is the root one
         bool IsRoot ()
         {
             return (parent == nullptr);
         }
 
 
+        // Moves this node to another node.
+        // Detachs from the actual parent and attach to the new one.
         bool MoveTo (TreeNode<DataType>* newParent)
         {
             if (newParent == nullptr)
@@ -322,18 +411,38 @@ class TreeNode
         }
 
 
+        // Returns this node name
         String Name ()
         {
             return name;
         }
 
 
+        // Returns this node parent
         TreeNode<DataType>* Parent ()
         {
             return parent;
         }
 
+    
+    private:
+        // Removes a node from this node children list but NOT DELETES IT 
+        bool removeChild (TreeNode<DataType>* child)
+        {
+            int childIndex = ChildIndex (child);
 
+            if (childIndex == -1)
+            {
+                return false;
+            }
+
+            children.erase (children.begin() + childIndex);
+            return true;
+        }
+
+
+    public:
+        // Returns this node root
         TreeNode<DataType>* Root ()
         {
             if (parent == nullptr)
@@ -342,17 +451,19 @@ class TreeNode
             }
             else
             {
-                return parent->Root ()
+                return parent->Root ();
             }
         }
 
 
+        // Sets this node data
         void SetData (DataType* data)
         {
             this->data = data;
         }
 
 
+        // Renames this node
         void SetName (String name)
         {
             this->name = name;
