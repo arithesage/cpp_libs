@@ -370,9 +370,20 @@ class TreeNode
 
 
         // Executes a function for each of the given node tree
-        void ForEachNode (void (*action) (TreeNode<DataType>* node ))
+        void ForEachNode (TreeNode<DataType>* node, 
+                          void (*func) (TreeNode<DataType>*))
         {
-            // TODO
+            if (node == nullptr)
+            {
+                return;
+            }
+
+            func (node);
+
+            for (TreeNode<DataType>* child : node->children)
+            {
+                ForEachNode (child, func);
+            }
         }
 
 
