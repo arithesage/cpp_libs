@@ -369,7 +369,16 @@ class TreeNode
         }
 
 
-        // Executes a function for each of the given node tree
+        // Executes a function for each node of the current tree,
+        // including this one
+        void ForEachNode (void (*func) (TreeNode<DataType>*))
+        {
+            ForEachNode (this, func);
+        }
+
+
+        // Executes a function for each of the given node tree,
+        // including itself
         void ForEachNode (TreeNode<DataType>* node, 
                           void (*func) (TreeNode<DataType>*))
         {

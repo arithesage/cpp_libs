@@ -5,13 +5,19 @@ using String = std::string;
 #include <TreeNode.hpp>
 
 
+void printNode (TreeNode<String>* node)
+{
+    std::cout << "[" << node->Name() << "]: ";
+    std::cout << node->Data() << std::endl;
+}
+
+
 int main ()
 {
     TreeNode<String> root ("Root", new String ("One"));
     root.AddNewNode ("Child", new String ("Two"));
 
-    std::cout << "Root: " << root.Data () << std::endl;
-    std::cout << " - Child: " << root.Child(0)->Data() << std::endl;
+    root.ForEachNode (printNode);
 
     return 0;
 }
