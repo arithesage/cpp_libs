@@ -21,6 +21,7 @@ class TreeNode
         DataType* data = nullptr;
 
         TreeNode<DataType>* parent = nullptr;
+        int level = 0;
         List <TreeNode<DataType>*> children;
 
     public:
@@ -417,6 +418,14 @@ class TreeNode
         }
 
 
+        // Returns this child level.
+        // Root is level 0, and every child beneath it 1, 2, 3...
+        int Level ()
+        {
+            return level;
+        }
+
+
         // Moves this node to another node.
         // Detachs from the actual parent and attach to the new one.
         bool MoveTo (TreeNode<DataType>* newParent)
@@ -488,7 +497,16 @@ class TreeNode
         {
             this->name = name;
         }
-        // TODO */
+        
+
+        // Check every node level
+        void Weight ()
+        {
+            ForEachNode ([] (TreeNode<DataType>* node) 
+            {
+                // TODO
+            });
+        }
 };
 #endif
 
