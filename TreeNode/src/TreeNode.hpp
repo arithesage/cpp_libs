@@ -499,13 +499,27 @@ class TreeNode
         }
         
 
-        // Check every node level
+        // Weight this tree
         void Weight ()
         {
-            ForEachNode ([] (TreeNode<DataType>* node) 
+            Weight (this);
+        }
+
+
+        // Weight the given tree
+        void Weight (TreeNode<DataType>* node, int currentLevel = 0)
+        {
+            if (node == nullptr)
             {
-                // TODO
-            });
+                return;
+            }
+
+            node->level = currentLevel;
+
+            for (TreeNode<DataType>* child : node->children)
+            {
+                Weight (child, (currentLevel +1));
+            }
         }
 };
 #endif
