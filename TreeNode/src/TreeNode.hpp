@@ -23,6 +23,7 @@ class TreeNode
         TreeNode<DataType>* parent = nullptr;
         int level = 0;
         List <TreeNode<DataType>*> children;
+        List < List<TreeNode<DataType>*> > nodesByLevel;
 
     public:
         // Create an unnamed and empty node (without any data)
@@ -289,16 +290,12 @@ class TreeNode
         // from the parent children list.
         TreeNode<DataType>* DetachNode (TreeNode<DataType>* node)
         {
-            if (node != nullptr)
+            if (node == nullptr)
             {
-                if (node->Dettach () == nullptr)
-                {
-                    // The given node is a root node. Nothing to detach.
-                    return nullptr;
-                }
-
-                return node;
+                return nullptr;
             }
+
+            return node->Detach ();
         }
 
 
@@ -435,7 +432,9 @@ class TreeNode
                 return false;
             }
             
-            // TODO
+            this->Detach ();
+            this->AttachTo (newParent);
+
             return true;
         }
 
@@ -444,6 +443,17 @@ class TreeNode
         String Name ()
         {
             return name;
+        }
+
+
+        // Returns all nodes located at the given level or depth.
+        // Level 0 has always one node, the root.
+        List< TreeNode<DataType> > NodesInLevel (int level)
+        {
+            if ((level >= 1) && (level < nodesByLevel.size()))
+            {
+                return nodesByLevel.at(level);
+            }
         }
 
 
@@ -492,6 +502,25 @@ class TreeNode
         }
 
 
+        // Returns a list with all siblings of this node
+        List< TreeNode<DataType>* > Siblings ()
+        {
+            List< TreeNode<DataType>* > siblings;
+
+            for (TreeNode<DataType>* child : parent->children)
+            {
+                if (child == this)
+                {
+                    continue;
+                }
+
+                siblings.push_back (child);
+            }
+
+            return siblings;
+        }
+
+
         // Renames this node
         void SetName (String name)
         {
@@ -509,12 +538,26 @@ class TreeNode
         // Weight the given tree
         void Weight (TreeNode<DataType>* node, int currentLevel = 0)
         {
+            if (currentLevel == 0)
+            {
+                nodesByLevel.clear ();
+            }
+
             if (node == nullptr)
             {
                 return;
             }
 
+            if ((currentLevel + 1) > nodesByLevel.size())
+            {
+                nodesByLevel.push_back ( List<TreeNode<DataType>*> () );
+            }
+
             node->level = currentLevel;
+            
+            ((List< TreeNode<DataType>* >) nodesByLevel.at(
+                currentLevel)
+            ).push_back (this);
 
             for (TreeNode<DataType>* child : node->children)
             {
