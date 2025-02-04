@@ -2,6 +2,7 @@
 #define __VECTOR_HELPERS__
 
 #include <initializer_list>
+#include <vector>
 
 
 class VectorHelpers
@@ -13,7 +14,17 @@ class VectorHelpers
          * Example: Pack<const char*> ({ "one", "two" })
          */
         template <typename ItemType>
-        static std::vector<ItemType> Pack (std::initializer_list<ItemType> items);
+        std::vector<ItemType> VectorHelpers::Pack (std::initializer_list<ItemType> items)
+        {
+            std::vector<ItemType> list;
+
+            for (ItemType item : items)
+            {
+                list.push_back (item);
+            }
+
+            return list;
+        }
 };
 
 #endif
