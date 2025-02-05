@@ -1,4 +1,6 @@
-# [WIP] C++ libraries
+# [WIP] C++ libraries (VectorHelpers)
 
-Some libraries i use in my C++ projects.
+This branch contains only VectorHelpers library.
+Used for including specific libraries as dependencies.
+
 
