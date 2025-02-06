@@ -7,16 +7,19 @@
 using String = std::string;
 #endif
 
-#include <ifstream>
+#include <fstream>
 
 
 class FilesystemHelpers
 {
     public:
+        static bool IsFile (const char * path);
         static bool IsFile (String path);
         static String MakePath (std::initializer_list<String> pathParts);
 };
 
+
+using FSHelpers = FilesystemHelpers;
 
 #endif
 

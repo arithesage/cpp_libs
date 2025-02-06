@@ -3,12 +3,15 @@
 #include <StringHelpers.hpp>
 
 
-using FSHelpers = FilesystemHelpers;
+bool FilesystemHelpers::IsFile (const char * path)
+{
+    return IsFile (String (path));
+}
 
 
 bool FilesystemHelpers::IsFile (String path)
 {
-    ifstream file;
+    std::ifstream file;
     
     file.open (path);
 

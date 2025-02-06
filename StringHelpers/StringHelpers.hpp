@@ -3,10 +3,13 @@
 
 #include <cstring>
 #include <initializer_list>
+#include <istream>
 #include <iostream>
 #include <iomanip>
 #include <sstream>
 #include <vector>
+
+#include <LangHelpers.hpp>
 
 using String = std::string;
 
@@ -24,23 +27,20 @@ class StringHelpers
         static String CStrToStr (char* c_string);
 
         // Concatenate a bunch of C-Strings into a String
-        static String Concat (std::initializer_list<const char*> chunks);
+        static String Concat (Args<const char*> chunks);
 
         // Concatenate a bunch of C-Strings into a String using
         // the given separator
-        static String Concat (std::initializer_list<const char*> chunks,
-                              const char* separator);
+        static String Concat (Args<const char*> chunks, const char* separator);
 
         // Concatenate a bunch of Strings
-        static String Concat (std::initializer_list<String> chunks);
+        static String Concat (Args<String> chunks);
 
         // Concatenate a bunch of Strings using the given separator
-        static String Concat (std::initializer_list<String> chunks, 
-                              const char* separator);
+        static String Concat (Args<String> chunks, const char* separator);
 
         // Concatenate a bunch of Strings using the given separator
-        static String Concat (std::initializer_list<String> chunks,
-                              String separator);
+        static String Concat (Args<String> chunks, String separator);
 
         // Concatenate a List of Strings using the given separator
         static String Concat (List<String> chunks, String separator);
@@ -56,6 +56,10 @@ class StringHelpers
 
         // Shortcut for obtaining the string representation of a float value
         static String FloatToStr (float value);
+
+        static List<String> Split (String s, char delim);
+
+        static List<String> Split (String s);        
 };
 
 #endif

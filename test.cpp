@@ -1,13 +1,13 @@
 #include <iostream>
 
-#include <Log.hpp>
-#include <StringHelpers.hpp>
+#include <FilesystemHelpers.hpp>
 
 
 int main ()
 {
-    String path = StringHelpers::Concat ({"home", "javier", "tmp"}, "/");
-    std::cout << path << std::endl;
+    bool exists = FSHelpers::IsFile ("/var/tmp");
+
+    std::cout << std::boolalpha << exists << std::endl;
 
     return 0;
 }

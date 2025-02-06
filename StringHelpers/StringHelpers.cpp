@@ -15,14 +15,13 @@ String StringHelpers::CStrToStr (char* c_string)
 }
 
 
-String StringHelpers::Concat (std::initializer_list<const char*> chunks)
+String StringHelpers::Concat (Args<const char*> chunks)
 {
     return Concat (chunks, "");
 }
 
 
-String StringHelpers::Concat (std::initializer_list<const char*> chunks,
-                              const char* separator)
+String StringHelpers::Concat (Args<const char*> chunks, const char* separator)
 {
     List<String> chunkList;
 
@@ -37,21 +36,19 @@ String StringHelpers::Concat (std::initializer_list<const char*> chunks,
 }
 
 
-String StringHelpers::Concat (std::initializer_list<String> chunks)
+String StringHelpers::Concat (Args<String> chunks)
 {
     return Concat (chunks, "");
 }
 
 
-String StringHelpers::Concat (std::initializer_list<String> chunks,
-                              const char* separator)
+String StringHelpers::Concat (Args<String> chunks, const char* separator)
 {
     return Concat (chunks, String (separator));
 }
 
 
-String StringHelpers::Concat (std::initializer_list<String> chunks, 
-                              String separator)
+String StringHelpers::Concat (Args<String> chunks, String separator)
 {
     List<String> allChunks = VectorHelpers::Pack<String> (chunks);
 
@@ -103,3 +100,29 @@ String StringHelpers::FloatToStr (float value)
 {
     return std::to_string (value);
 }
+
+
+List<String> StringHelpers::Split (String s, char delim)
+{
+    List<String> splittedStr;
+
+    std::stringstream stream (s);
+
+    String buffer;
+
+    while (std::getline (stream, buffer, delim))
+    {
+        splittedStr.push_back (buffer);
+    }
+
+    return splittedStr;
+}
+
+
+List<String> StringHelpers::Split (String s)
+{
+    return Split (s, ' ');
+}
+
+
+
