@@ -4,6 +4,11 @@
 #include <initializer_list>
 #include <vector>
 
+#ifndef __TYPES__
+    template <typename Type>
+    using List = std::vector<Type>;
+#endif
+
 
 class VectorHelpers
 {
@@ -14,9 +19,9 @@ class VectorHelpers
          * Example: Pack<const char*> ({ "one", "two" })
          */
         template <typename ItemType>
-        std::vector<ItemType> VectorHelpers::Pack (std::initializer_list<ItemType> items)
+        static List<ItemType> Pack (std::initializer_list<ItemType> items)
         {
-            std::vector<ItemType> list;
+            List<ItemType> list;
 
             for (ItemType item : items)
             {
