@@ -15,7 +15,6 @@ String StringHelpers::CStrToStr (char* c_string)
 }
 
 
-
 String StringHelpers::Concat (std::initializer_list<const char*> chunks)
 {
     return Concat (chunks, "");

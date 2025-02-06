@@ -23,20 +23,26 @@ class StringHelpers
         // Shortcut for crating a string from a C string (char*)
         static String CStrToStr (char* c_string);
 
+        // Concatenate a bunch of C-Strings into a String
         static String Concat (std::initializer_list<const char*> chunks);
 
-
+        // Concatenate a bunch of C-Strings into a String using
+        // the given separator
         static String Concat (std::initializer_list<const char*> chunks,
                               const char* separator);
 
+        // Concatenate a bunch of Strings
         static String Concat (std::initializer_list<String> chunks);
 
+        // Concatenate a bunch of Strings using the given separator
         static String Concat (std::initializer_list<String> chunks, 
                               const char* separator);
 
+        // Concatenate a bunch of Strings using the given separator
         static String Concat (std::initializer_list<String> chunks,
                               String separator);
 
+        // Concatenate a List of Strings using the given separator
         static String Concat (List<String> chunks, String separator);
 
         // Shortcut for crating a string from a const C string (const char*)
