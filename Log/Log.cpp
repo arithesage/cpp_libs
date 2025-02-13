@@ -1,33 +1,62 @@
 #include <Log.hpp>
 
 
-// Write DEBUG messages.
-// For appending int, float and boolean values, use the iS, fS and bS functions.
-void Log::d (String message)
+const char* Log::DEFAULT_DEBUG_TAG = "[DEBUG]";
+const char* Log::DEFAULT_ERROR_TAG = "[ERROR]";
+const char* Log::DEFAULT_INFO_TAG = "[INFO]";
+const char* Log::DEFAULT_WARNING_TAG = "[WARNING]";
+
+
+void Log::d (const char* message)
 {
-    std::cout << "[DEBUG] " << message << std::endl;
+    std::cout << DEFAULT_DEBUG_TAG << " " << message << std::endl;
 }
 
 
-// Write ERROR messages.
-// For appending int, float and boolean values, use the iS, fS and bS functions.
-void Log::e (String message)
+void Log::d (const char* message, Args<const char*> params)
 {
-    std::cerr << "[ERROR] " << message << std::endl;
+    String _message = String (message);
+    List<const char*> _params = ListFromArgs<const char*> (params);
+
+    
 }
 
 
-// Write INFO messages.
-// For appending int, float and boolean values, use the iS, fS and bS functions.
-void Log::i (String message)
+void Log::e (const char* message)
 {
-    std::cout << "[INFO] " << message << std::endl;
+    std::cerr << DEFAULT_ERROR_TAG << " " << message << std::endl;
 }
 
 
-// Write WARNING messages.
-// For appending int, float and boolean values, use the iS, fS and bS functions.
-void Log::w (String message)
+void Log::ec (const char* error, const char* cause)
 {
-    std::cerr << "[WARNING] " << message << std::endl;
+    e (error);
+
+    std::cerr << "[CAUSE]: " << cause << std::endl;
+    std::cerr << std::endl;
 }
+
+
+void Log::i (const char* message)
+{
+    std::cout << DEFAULT_INFO_TAG << " " << message << std::endl;
+}
+
+
+void Log::i (const char* message, Args<const char*> params)
+{
+    
+}
+
+
+void Log::w (const char* message)
+{
+    std::cout << DEFAULT_WARNING_TAG << " " << message << std::endl;
+}
+
+
+void Log::w (const char* message, Args<const char*> params)
+{
+    
+}
+

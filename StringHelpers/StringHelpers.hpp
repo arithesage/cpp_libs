@@ -57,9 +57,11 @@ class StringHelpers
         // Shortcut for obtaining the string representation of a float value
         static String FloatToStr (float value);
 
+        static String Replace (const char* text, const char* chunk, const char* newChunk);
+
         static List<String> Split (String s, char delim);
 
-        static List<String> Split (String s);        
+        static List<String> Split (String s);
 };
 
 #endif

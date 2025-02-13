@@ -102,6 +102,22 @@ String StringHelpers::FloatToStr (float value)
 }
 
 
+String StringHelpers::Replace (const char* text, const char* chunk, const char* newChunk)
+{
+    String _text (text);
+    String _chunk (chunk);
+
+    int chunkPos = _text.find (_chunk);
+
+    if (chunkPos >= 0)
+    {
+        _text.replace (chunkPos, _chunk.size(), newChunk);
+    }
+
+    return _text;
+}
+
+
 List<String> StringHelpers::Split (String s, char delim)
 {
     List<String> splittedStr;

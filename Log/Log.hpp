@@ -1,31 +1,35 @@
 #ifndef __LOG__
 #define __LOG__
 
-#include <iostream>
+#ifndef __TYPES__
+    #include <iostream>
+    using String = std::string;
+#endif
 
-
-using String = std::string;
+#include <LangHelpers.hpp>
 
 
 class Log
 {
+    private:
+        static const char* DEFAULT_DEBUG_TAG;
+        static const char* DEFAULT_ERROR_TAG;
+        static const char* DEFAULT_INFO_TAG;
+        static const char* DEFAULT_WARNING_TAG;
+
     public:
-        // Write DEBUG messages.
-        // For appending int, float and boolean values, use the iS, fS and bS functions.
-        static void d (String message);
+        static void d (const char* message);
+        static void d (const char* message, Args<const char*> params);
 
-        // Write ERROR messages.
-        // For appending int, float and boolean values, use the iS, fS and bS functions.
-        static void e (String message);
+        static void e (const char* message);
+        static void ec (const char* error, const char* cause);
 
-        // Write INFO messages.
-        // For appending int, float and boolean values, use the iS, fS and bS functions.
-        static void i (String message);
+        static void i (const char* message);
+        static void i (const char* message, Args<const char*> params);
 
-        // Write WARNING messages.
-        // For appending int, float and boolean values, use the iS, fS and bS functions.
-        static void w (String message);
+        static void w (const char* message);
+        static void w (const char* message, Args<const char*> params);
+
 };
-
 
 #endif
