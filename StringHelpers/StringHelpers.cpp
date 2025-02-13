@@ -102,7 +102,23 @@ String StringHelpers::FloatToStr (float value)
 }
 
 
-String StringHelpers::Replace (const char* text, const char* chunk, const char* newChunk)
+bool StringHelpers::Has (const char* text, const char* chunk)
+{
+    String _text (text);
+
+    return (_text.find (chunk) >= -1);
+}
+
+
+bool StringHelpers::Has (const char* text, String chunk)
+{    
+    return Has (text, chunk.c_str ());
+}
+
+
+String StringHelpers::Replace (const char* text, 
+                               const char* chunk, 
+                               const char* newChunk)
 {
     String _text (text);
     String _chunk (chunk);
@@ -115,6 +131,30 @@ String StringHelpers::Replace (const char* text, const char* chunk, const char* 
     }
 
     return _text;
+}
+
+
+String StringHelpers::ReplaceAll (const char* text, 
+                                  Args<const char*> chunks, 
+                                  Args<const char*> newChunks)
+{
+    const char* _text (text);
+
+    List<const char*> _chunks = ListFromArgs<const char*> (chunks);
+    List<const char*> _newChunks = ListFromArgs<const char*> (newChunks);
+
+    for (int c = 0; c < _chunks.size(); c ++)
+    {
+        const char* chunk = _chunks[c];
+        const char* newChunk = _newChunks[c];
+
+        if (Has (text, chunk))
+        {
+            Replace (_text, chunk, newChunk);
+        }
+    }
+
+    return String (_text);
 }
 
 

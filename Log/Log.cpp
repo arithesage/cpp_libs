@@ -1,10 +1,34 @@
 #include <Log.hpp>
 
+#include <StringHelpers.hpp>
+
 
 const char* Log::DEFAULT_DEBUG_TAG = "[DEBUG]";
 const char* Log::DEFAULT_ERROR_TAG = "[ERROR]";
 const char* Log::DEFAULT_INFO_TAG = "[INFO]";
 const char* Log::DEFAULT_WARNING_TAG = "[WARNING]";
+
+
+const char * Log::replacePlaceholders (const char* message, 
+                                       Args<const char*> params)
+{
+    String _message (message);
+    List<const char*> _params = ListFromArgs<const char*> (params);
+
+    for (int p = 0; p < _params.size(); p ++)
+    {
+        const char* placeholder = StringHelpers::Concat ({
+            "${", 
+            StringHelpers::IntToStr (p), 
+            "}"
+        }).c_str ();
+
+        if (StringHelpers::Has (message, placeholder))
+        {
+            StringHelpers::Replace (message, placeholder, _params[p]);
+        }
+    }
+}
 
 
 void Log::d (const char* message)
@@ -15,10 +39,8 @@ void Log::d (const char* message)
 
 void Log::d (const char* message, Args<const char*> params)
 {
-    String _message = String (message);
-    List<const char*> _params = ListFromArgs<const char*> (params);
-
-    
+    std::cout << DEFAULT_DEBUG_TAG << " ";
+    std::cout << replacePlaceholders (message, params) << std::endl;
 }
 
 
@@ -45,7 +67,8 @@ void Log::i (const char* message)
 
 void Log::i (const char* message, Args<const char*> params)
 {
-    
+    std::cout << DEFAULT_INFO_TAG << " ";
+    std::cout << replacePlaceholders (message, params) << std::endl;
 }
 
 
@@ -57,6 +80,7 @@ void Log::w (const char* message)
 
 void Log::w (const char* message, Args<const char*> params)
 {
-    
+    std::cout << DEFAULT_WARNING_TAG << " ";
+    std::cout << replacePlaceholders (message, params) << std::endl;
 }
 
