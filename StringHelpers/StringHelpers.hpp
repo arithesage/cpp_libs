@@ -2,7 +2,6 @@
 #define __STRING_HELPERS__
 
 #include <cstring>
-#include <initializer_list>
 #include <istream>
 #include <iostream>
 #include <iomanip>
@@ -11,10 +10,12 @@
 
 #include <LangHelpers.hpp>
 
-using String = std::string;
+#ifndef __TYPES__
+    using String = std::string;
 
-template <typename Type>
-using List = std::vector<Type>;
+    template <typename Type>
+    using List = std::vector<Type>;
+#endif
 
 
 class StringHelpers
@@ -26,12 +27,39 @@ class StringHelpers
         // Shortcut for crating a string from a C string (char*)
         static String CStrToStr (char* c_string);
 
+        static String Concat (Args<const char*> chunks);
+
+        static String Concat (Args<const char*> chunks, const char* separator);
+
+        static String Concat (List<const char*> chunks, const char* separator);
+
+        static String Concat (Args<const char*> chunks, String separator);
+
+        static String Concat (List<const char*> chunks, String separator);
+
+        static String Concat (Args<String> chunks);
+
+        static String Concat (Args<String> chunks, const char* separator);
+
+        static String Concat (List<String> chunks, const char* separator);
+
+        static String Concat (Args<String> chunks, String separator);
+
+        static String Concat (List<String> chunks, String separator);
+
+        /*
         // Concatenate a bunch of C-Strings into a String
         static String Concat (Args<const char*> chunks);
 
         // Concatenate a bunch of C-Strings into a String using
         // the given separator
         static String Concat (Args<const char*> chunks, const char* separator);
+
+        static String Concat (Args<const char*> chunks, String separator);
+
+        static String Concat (List<const char*> chunks, const char* separator);
+
+        static String Concat (List<const char*> chunks, String separator);
 
         // Concatenate a bunch of Strings
         static String Concat (Args<String> chunks);
@@ -44,6 +72,7 @@ class StringHelpers
 
         // Concatenate a List of Strings using the given separator
         static String Concat (List<String> chunks, String separator);
+        */
 
         // Shortcut for crating a string from a const C string (const char*)
         static String ConstCStrToStr (const char* c_string);

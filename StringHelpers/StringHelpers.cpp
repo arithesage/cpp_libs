@@ -23,58 +23,89 @@ String StringHelpers::Concat (Args<const char*> chunks)
 
 String StringHelpers::Concat (Args<const char*> chunks, const char* separator)
 {
-    List<String> chunkList;
+    List<const char*> _chunks = ListFromArgs<const char*> (chunks);
+    
+    return Concat (_chunks, separator);
+}
 
-    std::initializer_list<const char*>::iterator it;
 
-    for (it = chunks.begin(); it != chunks.end(); it ++)
+String StringHelpers::Concat (List<const char*> chunks, const char* separator)
+{
+    String str = String ("");
+
+    for (int c = 0; c < chunks.size(); c ++)
     {
-        chunkList.push_back (String (*it));
+        str += String (chunks[c]);
+
+        if (c < (chunks.size() - 1))
+        {
+            str += separator;
+        }
     }
 
-    return Concat (chunkList, separator);
+    return str;
+}
+
+
+String StringHelpers::Concat (Args<const char*> chunks, String separator)
+{
+    List<const char*> _chunks = ListFromArgs<const char*> (chunks);
+
+    return Concat (_chunks, separator.c_str());
+}
+
+
+String StringHelpers::Concat (List<const char*> chunks, String separator)
+{
+    return Concat (chunks, separator.c_str());
 }
 
 
 String StringHelpers::Concat (Args<String> chunks)
 {
-    return Concat (chunks, "");
+    List<String> _chunks = ListFromArgs<String> (chunks);
+
+    return Concat (_chunks, "");
 }
 
 
 String StringHelpers::Concat (Args<String> chunks, const char* separator)
 {
-    return Concat (chunks, String (separator));
+    List<String> _chunks = ListFromArgs<String> (chunks);
+
+    return Concat (_chunks, separator);
+}
+
+
+String StringHelpers::Concat (List<String> chunks, const char* separator)
+{
+    String str = String ("");
+
+    for (int c = 0; c < chunks.size(); c ++)
+    {
+        str += chunks[c];
+
+        if (c < (chunks.size() - 1))
+        {
+            str += separator;
+        }
+    }
+
+    return str;
 }
 
 
 String StringHelpers::Concat (Args<String> chunks, String separator)
-{
-    List<String> allChunks = VectorHelpers::Pack<String> (chunks);
+{    
+    List<String> _chunks = ListFromArgs<String> (chunks);
 
-    String str = "";
-
-    for (String chunk : chunks)
-    {
-        str += chunk;
-        str += separator;
-    }
-
-    return str;
+    return Concat (chunks, separator.c_str());
 }
 
 
 String StringHelpers::Concat (List<String> chunks, String separator)
 {
-    String str = "";
-
-    for (String chunk : chunks)
-    {
-        str += chunk;
-        str += separator;
-    }
-
-    return str;
+    return Concat (chunks, separator.c_str());
 }
 
 
