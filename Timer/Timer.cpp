@@ -14,16 +14,16 @@ Timer::Timer (void (*onTimeout) (), int laps)
 }
 
 
-Timer::Timer (float interval, void (*onTimeout) ())
+Timer::Timer (void (*onTimeout) (), float timeout)
 {
-    this->interval = interval;
+    this->timeout = timeout;
     this->onTimeout = onTimeout;
 }
 
 
-Timer::Timer (float interval, void (*onTimeout) (), int laps)
+Timer::Timer (void (*onTimeout) (), float timeout, int laps)
 {
-    this->interval = interval;
+    this->timeout = timeout;
     this->onTimeout = onTimeout;
     this->totalLaps = laps;
 }
@@ -32,6 +32,12 @@ Timer::Timer (float interval, void (*onTimeout) (), int laps)
 Timer::~Timer ()
 {
 
+}
+
+
+void Timer::OnStop (void (*onStop) ())
+{
+    this->onStop = onStop;
 }
 
 
@@ -59,11 +65,16 @@ void Timer::Start ()
 
 void Timer::Stop ()
 {
-    running = false;    
+    running = false;
+
+    if (onStop != nullptr)
+    {
+        onStop ();
+    }
 }
 
 
-void Timer::update ()
+void Timer::Update ()
 {
     if (running)
     {
@@ -73,7 +84,7 @@ void Timer::update ()
         
         accumulator += deltaTime.count ();
         
-        if (accumulator >= interval)
+        if (accumulator >= timeout)
         {
             accumulator = 0;
             onTimeout ();
