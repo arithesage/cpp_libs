@@ -4,7 +4,8 @@
 #include <chrono>
 
 using stopWatch = std::chrono::steady_clock;
-using timeLapse = std::chrono::duration<float>;
+using duration = std::chrono::duration<float>;
+using moment = stopWatch::time_point;
 
 
 class Timer
@@ -12,25 +13,30 @@ class Timer
     private:
         float accumulator = 0.0f;
         float interval = 1.0f;
-        bool repeat = false;
+        int currentLaps = 0;
+        int totalLaps = 0;
+        
         bool running = false;
 
-        void (*onFinish) ();
+        moment lastTime;
+        moment now;
+
+        void (*onTimeout) ();
 
     public:
-        Timer (void (*onFinish) ());
-        Timer (void (*onFinish) (), bool repeat);
-        Timer (float interval, void (*onFinish) ());
-        Timer (float interval, void (*onFinish) (), bool repeat);
+        Timer (void (*onTimeout) ());
+        Timer (void (*onTimeout) (), int laps);
+        Timer (float interval, void (*onTimeout) ());
+        Timer (float interval, void (*onTimeout) (), int laps);
 
         ~Timer ();
 
+        void Reset ();
         bool Running ();
         void Start ();
         void Stop ();
 
-    private:
-        void tick ();
+    private:        
         void update ();
 };
 

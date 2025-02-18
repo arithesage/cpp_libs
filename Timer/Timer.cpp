@@ -1,37 +1,44 @@
 #include <Timer.hpp>
 
 
-Timer::Timer (void (*onFinish) ())
+Timer::Timer (void (*onTimeout) ())
 {
-    this->onFinish = onFinish;
+    this->onTimeout = onTimeout;
 }
 
 
-Timer::Timer (void (*onFinish) (), bool repeat)
+Timer::Timer (void (*onTimeout) (), int laps)
 {
-    this->onFinish = onFinish;
-    this->repeat = repeat;
+    this->onTimeout = onTimeout;
+    this->totalLaps = laps;
 }
 
 
-Timer::Timer (float interval, void (*onFinish) ())
+Timer::Timer (float interval, void (*onTimeout) ())
 {
     this->interval = interval;
-    this->onFinish = onFinish;
+    this->onTimeout = onTimeout;
 }
 
 
-Timer::Timer (float interval, void (*onFinish) (), bool repeat)
+Timer::Timer (float interval, void (*onTimeout) (), int laps)
 {
     this->interval = interval;
-    this->onFinish = onFinish;
-    this->repeat = repeat;
+    this->onTimeout = onTimeout;
+    this->totalLaps = laps;
 }
 
 
 Timer::~Timer ()
 {
 
+}
+
+
+void Timer::Reset ()
+{
+    accumulator = 0.0f;
+    currentLaps = 0;
 }
 
 
@@ -43,20 +50,16 @@ bool Timer::Running ()
 
 void Timer::Start ()
 {
+    Reset ();
+
     running = true;
-    accumulator = 0.0f;
+    lastTime = stopWatch::now();
 }
 
 
 void Timer::Stop ()
 {
-
-}
-
-
-void Timer::tick ()
-{
-
+    running = false;    
 }
 
 
@@ -64,8 +67,30 @@ void Timer::update ()
 {
     if (running)
     {
-        auto currentTime = stopWatch::now ();
+        now = stopWatch::now ();
+        duration deltaTime = (now - lastTime);
+        lastTime = now;
+        
+        accumulator += deltaTime.count ();
+        
+        if (accumulator >= interval)
+        {
+            accumulator = 0;
+            onTimeout ();
 
-        timeLapse deltaTime = (currentTime - lastTime);
+            if (totalLaps == 0)
+            {
+                Stop ();
+            }
+            else if (totalLaps > 0)
+            {
+                currentLaps ++;
+            
+                if (currentLaps == totalLaps)
+                {
+                    Stop ();
+                }
+            }            
+        }
     }
 }
