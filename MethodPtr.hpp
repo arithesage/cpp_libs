@@ -4,6 +4,11 @@
 template <typename Class>
 using Method = void (Class::*) ();
 
-#define Call(instance,methodPtr) (instance.*ptr)();
+template <typename InstanceClass>
+void CallMethodPtr (InstanceClass instance,
+                    MethodPtr<InstanceClass> method)
+{
+    (instance.*method) ();
+}
 
 #endif
