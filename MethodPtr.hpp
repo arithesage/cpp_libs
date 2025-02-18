@@ -1,33 +1,9 @@
 #ifndef __METHOD_PTR__
 #define __METHOD_PTR__
 
-template <typename C>
-class MethodPtr
-{
-    private:
-        C* instance = nullptr;
-        void (C::*funcPtr) () = nullptr;
+template <typename Class>
+using Method = void (Class::*) ();
 
-    public:
-        MethodPtr (C* instance, void (C::*func ());
-        void Call ();
-};
+#define Call(instance,methodPtr) (instance.*ptr)();
 
-
-template <typename C>
-MethodPtr::MethodPtr (C* instance, void (C::*func ())
-{
-    this->instance = instance;
-    this->funcPtr = func;
-}
-
-
-template <typename C>
-void MethodPtr::Call ()
-{
-    if ((instance != nullptr) && (funcPtr != nullptr))
-    {
-        (cInstance->*funcPtr) ();
-    }
-};
 #endif
