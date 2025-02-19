@@ -1,48 +1,34 @@
-//#include <Common.hpp>
 #include <iostream>
-
-#include <Timer.hpp>
+#include <FunctionPointers.hpp>
 
 using std::cout;
 using std::endl;
 
-bool t = false;
-bool end = false;
 
-
-void onTick ()
+class Test
 {
-    if (!t)
-    {
-        cout << "Tick\n";
-        t = true;
-    }
-    else
-    {
-        cout << "Tock\n";
-        t = false;
-    }
-}
+    public:
+        void func ()
+        {
+            cout << "Hello\n";
+        }
 
-
-void onStop ()
-{
-    end = true;
-}
+        void func2 (const char* message)
+        {
+            cout << message;
+        }
+};
 
 
 int main ()
 {
-    Timer tick (1.0f, onTick, 20);
-    tick.OnStop (onStop);
-    tick.Start ();
+    Test t;
 
-    while (!end)
-    {
-        tick.Update ();
-    }
+    MethodPtr<Test> testFunc = &Test::func;
+    MethodPtr1P<Test, const char*> testFunc2 = &Test::func2;
 
-    cout << "Finished.\n";
+    CallMethodPtr<Test> (t, testFunc);
+    CallMethodPtr<Test, const char*> (t, testFunc2, "Hello world!\n");
 
     return 0;
 }
