@@ -1,11 +1,14 @@
 #ifndef __TYPES__
 #define __TYPES__
 
+#include <any>
 #include <iostream>
 #include <map>
 #include <type_traits>
 #include <vector>
 
+
+using Any = std::any;
 
 using String = std::string;
 
@@ -19,6 +22,51 @@ template <typename Key, typename Value>
 using Map = std::map<Key, Value>;
 
 
+class Anything
+{
+    private:
+        Any* something = nullptr;
+
+    public:
+        Anything (Any something)
+        {
+            this->something = &something;
+        }
+
+        template <typename Type>
+        Anything (Type obj)
+        {
+            Type* objPtr = &obj;
+            Any* something = std::make_any<Type*> (objPtr);
+        }
+
+        template <typename Type>
+        Anything (Type* obj)
+        {
+            Any* something = std::make_any<Type*> (obj);
+        }
+
+        template <typename Type>
+        static Any From (Type obj)
+        {
+            return std::make_any<Type> (obj);
+        }
+
+        template <typename Type>
+        bool Is ()
+        {
+            try
+            {
+                Type* obj = std::any_cast<Type>(something);
+
+                return true;
+            }
+            catch (const std::bad_any_cast& e)
+            {
+                return false;
+            }
+        }
+};
 
 
 // Special class for testing types

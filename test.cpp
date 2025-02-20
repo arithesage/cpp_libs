@@ -1,5 +1,5 @@
 #include <iostream>
-#include <FunctionPointers.hpp>
+#include <Types.hpp>
 
 using std::cout;
 using std::endl;
@@ -7,28 +7,33 @@ using std::endl;
 
 class Test
 {
-    public:
-        void func ()
-        {
-            cout << "Hello\n";
-        }
-
-        void func2 (const char* message)
-        {
-            cout << message;
-        }
+    
 };
+
+
+class Result
+{
+
+};
+
+
 
 
 int main ()
 {
     Test t;
+    Result r;
 
-    MethodPtr<Test> testFunc = &Test::func;
-    MethodPtr1P<Test, const char*> testFunc2 = &Test::func2;
+    Anything s (t);
 
-    CallMethodPtr<Test> (t, testFunc);
-    CallMethodPtr<Test, const char*> (t, testFunc2, "Hello world!\n");
+    if (s.Is<Test>())
+    {
+        cout << "S is of type Test.\n";
+    }
+    else
+    {
+        cout << "S isn't of type Test.\n";
+    }
 
     return 0;
 }
