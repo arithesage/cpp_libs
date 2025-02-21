@@ -20,12 +20,14 @@ class CatListener : public Listener
         virtual void onCatMeow () = 0;
         
     public:
-        void Notify () override
+        void _Notify () override
         {
             onCatMeow ();
         }
 };
 
+
+CatMeowEvent meowEvent;
 
 class Cat
 {
@@ -55,7 +57,6 @@ class Dog : public CatListener
 
 
 
-CatMeowEvent meowEvent;
 
 int main()
 {

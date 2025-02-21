@@ -1,30 +1,27 @@
 #include <Timer.hpp>
 
 
-Timer::Timer (void (*onTimeout) ())
+Timer::Timer ()
 {
-    this->onTimeout = onTimeout;
+
 }
 
 
-Timer::Timer (void (*onTimeout) (), int laps)
+Timer::Timer (int laps)
 {
-    this->onTimeout = onTimeout;
     this->totalLaps = laps;
 }
 
 
-Timer::Timer (void (*onTimeout) (), float timeout)
+Timer::Timer (float timeout)
 {
     this->timeout = timeout;
-    this->onTimeout = onTimeout;
 }
 
 
-Timer::Timer (void (*onTimeout) (), float timeout, int laps)
+Timer::Timer (float timeout, int laps)
 {
     this->timeout = timeout;
-    this->onTimeout = onTimeout;
     this->totalLaps = laps;
 }
 
@@ -35,9 +32,21 @@ Timer::~Timer ()
 }
 
 
-void Timer::OnStop (void (*onStop) ())
+int Timer::CurrentLaps ()
 {
-    this->onStop = onStop;
+    return currentLaps;
+}
+
+
+void Timer::OnStop (TimerListener* listener)
+{
+    onStop.Subscribe (listener);
+}
+
+
+void Timer::OnTimeout (TimerListener* listener)
+{
+    onTimeout.Subscribe (listener);
 }
 
 
@@ -54,6 +63,18 @@ bool Timer::Running ()
 }
 
 
+void Timer::SetTimeout (float timeout)
+{
+    this->timeout = timeout;
+}
+
+
+void Timer::SetTotalLaps (int totalLaps)
+{
+    this->totalLaps = totalLaps;
+}
+
+
 void Timer::Start ()
 {
     Reset ();
@@ -66,11 +87,13 @@ void Timer::Start ()
 void Timer::Stop ()
 {
     running = false;
+    onStop.Fire ();
+}
 
-    if (onStop != nullptr)
-    {
-        onStop ();
-    }
+
+int Timer::TotalLaps ()
+{
+    return totalLaps;
 }
 
 
@@ -87,7 +110,7 @@ void Timer::Update ()
         if (accumulator >= timeout)
         {
             accumulator = 0;
-            onTimeout ();
+            onTimeout.Fire ();
 
             if (totalLaps == 0)
             {

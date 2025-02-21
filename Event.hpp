@@ -1,10 +1,20 @@
 #ifndef __EVENT__
 #define __EVENT__
 
-#include <Types.hpp>
+#ifndef __TYPES__
+#include <vector>
+
+template <typename T>
+using List = std::vector<T>;
+#endif
+
 #include <Listener.hpp>
 
 
+/**
+ * Base class for events.
+ * Only listeners requiring no parameters can subscribe.
+ */
 class Event
 {
     protected:
@@ -15,10 +25,9 @@ class Event
         {
             for (Listener* listener : listeners)
             {
-                listener->Notify ();
+                listener->_Notify ();
             }
         }
-
 
         void Subscribe (Listener* listener)
         {
@@ -27,6 +36,10 @@ class Event
 };
 
 
+/**
+ * Base class for events.
+ * Only listeners requiring one parameter can subscribe.
+ */
 template <typename P1>
 class Event1P
 {
@@ -38,10 +51,9 @@ class Event1P
         {
             for (Listener1P<P1>* listener : listeners)
             {
-                listener->Notify (p1);
+                listener->_Notify (p1);
             }
         }
-
 
         void Subscribe (Listener1P<P1>* listener)
         {
@@ -50,6 +62,10 @@ class Event1P
 };
 
 
+/**
+ * Base class for events.
+ * Only listeners requiring two parameters can subscribe.
+ */
 template <typename P1, typename P2>
 class Event2P
 {
@@ -61,10 +77,9 @@ class Event2P
         {
             for (Listener2P<P1, P2>* listener : listeners)
             {
-                listener->Notify (p1, p2);
+                listener->_Notify (p1, p2);
             }
         }
-
 
         void Subscribe (Listener2P<P1, P2>* listener)
         {
@@ -73,6 +88,10 @@ class Event2P
 };
 
 
+/**
+ * Base class for events.
+ * Only listeners requiring three parameters can subscribe.
+ */
 template <typename P1, typename P2, typename P3>
 class Event3P
 {
@@ -82,12 +101,11 @@ class Event3P
     public:
         void Fire (P1 p1, P2 p2, P3 p3)
         {
-            for (Listener3P<P1, P2, P3> listener* : listeners)
+            for (Listener3P<P1, P2, P3>* listener : listeners)
             {
-                listener->Notify (p1, p2, p3);
+                listener->_Notify (p1, p2, p3);
             }
         }
-
 
         void Subscribe (Listener3P<P1, P2, P3>* listener)
         {
@@ -96,7 +114,10 @@ class Event3P
 };
 
 
-
+/**
+ * Base class for events.
+ * Only listeners requiring four parameters can subscribe.
+ */
 template <typename P1, typename P2, typename P3, typename P4>
 class Event4P
 {
@@ -108,10 +129,9 @@ class Event4P
         {
             for (Listener4P<P1, P2, P3, P4>* listener : listeners)
             {
-                listener->Notify (p1, p2, p3, p4);
+                listener->_Notify (p1, p2, p3, p4);
             }
         }
-
 
         void Subscribe (Listener4P<P1, P2, P3, P4>* listener)
         {

@@ -7,15 +7,35 @@ using stopWatch = std::chrono::steady_clock;
 using duration = std::chrono::duration<float>;
 using moment = stopWatch::time_point;
 
+#include <Listener.hpp>
+#include <Event.hpp>
+
+
+class TimerListener : public Listener
+{
+    protected:
+        virtual void onTimeout () = 0;
+        
+    public:
+        void _Notify () override
+        {
+            onTimeout ();
+        }
+};
+
+
+class TimerEvent : public Event
+{
+
+};
+
 
 /**
  * A simple timer.
  * 
- * You can create one just pausing the current thread, but this one
- * works without using them.
- * 
- * To create one, you need, at least, to specify a function to call when
- * the timeout ends.
+ * To be notified of when it reached timeout, you need to inherit from
+ * TimerListener and implement 'onTimeout' function. You can then subscribe
+ * to events.
  * 
  * Because the timer do not make use of threads, the way to make it advance
  * is using a infinite loop and calling its Update function/method there.
@@ -33,11 +53,11 @@ class Timer
         moment lastTime;
         moment now;
 
-        void (*onStop) ();
-        void (*onTimeout) ();
+        TimerEvent onStop;
+        TimerEvent onTimeout;
 
     public:
-        Timer (void (*onTimeout) ());
+        Timer ();
 
 
         /**
@@ -46,13 +66,13 @@ class Timer
          * If laps == 0, it will last only one.
          * If laps == -1, it will last until stopped.
          */
-        Timer (void (*onTimeout) (), int laps);
+        Timer (int laps);
 
 
         /**
          * Creates a new timer that will stop after the given timeout
          */
-        Timer (void (*onTimeout) (), float timeout);
+        Timer (float timeout);
 
 
         /**
@@ -62,16 +82,28 @@ class Timer
          * If laps == 0, it will last only one.
          * If laps == -1, it will last until stopped.
          */
-        Timer (void (*onTimeout) (), float timeout, int laps);
+        Timer (float timeout, int laps);
 
 
         ~Timer ();
 
 
         /**
-         * Stops the timer also resetting it
+         * Returns the current done laps
          */
-        void OnStop (void (*onStop) ());
+        int CurrentLaps ();
+
+        
+        /**
+         * Subscribe to the OnStop event
+         */
+        void OnStop (TimerListener* listener);
+
+
+        /**
+         * Subscribe to the OnTimeout event
+         */
+        void OnTimeout (TimerListener* listener);
 
 
         /**
@@ -87,15 +119,38 @@ class Timer
 
 
         /**
+         * The timer will stop after the given timeout
+         */
+        void SetTimeout (float timeout);
+
+
+        /**
+         * Set the total laps to perform.
+         * 
+         * Each lap will last until the setted timeout (1 second by default).
+         * 
+         * If laps == 0, it will last only one.
+         * If laps == -1, it will last until stopped.
+         */
+        void SetTotalLaps (int totalLaps);
+
+
+        /**
          * Starts the timer
          */
         void Start ();
 
 
         /**
-         * Stops the timer
+         * Stops the timer also resetting it
          */
         void Stop ();
+
+
+        /**
+         * Returns the total laps that the timer will perform
+         */
+        int TotalLaps ();
 
 
         /**
