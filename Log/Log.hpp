@@ -24,8 +24,12 @@ class Log
         static void d (const char* message);
         static void d (const char* message, Args<const char*> params);
 
-        static void e (const char* message);
+        static void e (const char* error);
+        static void e (const char* error, Args<const char*> params);
         static void ec (const char* error, const char* cause);
+        static void ec (const char* error, Args<const char*> params, 
+                                           const char* cause);
+
 
         static void i (const char* message);
         static void i (const char* message, Args<const char*> params);

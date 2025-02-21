@@ -1,9 +1,7 @@
-#include <iostream>
+#include <Common.hpp>
 
-using std::cerr;
-using std::cout;
-using std::endl;
 
+using namespace Common;
 
 
 int main ()

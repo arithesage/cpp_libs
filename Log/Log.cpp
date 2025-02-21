@@ -44,15 +44,32 @@ void Log::d (const char* message, Args<const char*> params)
 }
 
 
-void Log::e (const char* message)
+void Log::e (const char* error)
 {
-    std::cerr << DEFAULT_ERROR_TAG << " " << message << std::endl;
+    std::cerr << DEFAULT_ERROR_TAG << " " << error << std::endl;
+}
+
+
+void Log::e (const char* error, Args<const char*> params)
+{
+    std::cerr << DEFAULT_ERROR_TAG << " ";
+    std::cerr << replacePlaceholders (error, params) << std::endl;
 }
 
 
 void Log::ec (const char* error, const char* cause)
 {
     e (error);
+
+    std::cerr << "[CAUSE]: " << cause << std::endl;
+    std::cerr << std::endl;
+}
+
+
+void Log::ec (const char* error, Args<const char*> params, 
+                                 const char* cause)
+{
+    e (error, params);
 
     std::cerr << "[CAUSE]: " << cause << std::endl;
     std::cerr << std::endl;
