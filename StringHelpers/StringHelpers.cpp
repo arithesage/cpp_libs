@@ -165,35 +165,89 @@ String StringHelpers::Replace (const char* text,
 }
 
 
-String StringHelpers::ReplaceAll (const char* text, 
-                                  Args<const char*> chunks, 
-                                  Args<const char*> newChunks)
+String StringHelpers::ReplaceAll (const char* text,
+                                  const char* chunk,
+                                  const char* newChunk)
 {
-    const char* _text (text);
+    String _text = String (text);
 
-    List<const char*> _chunks = ListFromArgs<const char*> (chunks);
-    List<const char*> _newChunks = ListFromArgs<const char*> (newChunks);
-
-    for (int c = 0; c < _chunks.size(); c ++)
+    while (Has (text, chunk))
     {
-        const char* chunk = _chunks[c];
-        const char* newChunk = _newChunks[c];
-
-        if (Has (text, chunk))
-        {
-            Replace (_text, chunk, newChunk);
-        }
+        _text = Replace (_text.c_str(), chunk, newChunk);
     }
 
-    return String (_text);
+    return _text;
 }
 
 
-List<String> StringHelpers::Split (String s, char delim)
+
+String StringHelpers::ReplaceAll (const char* text,
+                                  Args<const char *> chunks,
+                                  Args<const char *> newChunks)
+{
+    List<const char*> _chunks = ListFromArgs (chunks);
+    List<const char*> _newChunks = ListFromArgs (newChunks);
+
+    return ReplaceAll (text, _chunks, _newChunks);
+}
+
+
+String StringHelpers::ReplaceAll (const char* text,
+                                  List<const char *> chunks,
+                                  List<const char *> newChunks)
+{
+    String _text = String (text);
+
+    if (chunks.size() == newChunks.size())
+    {
+        for (int c = 0; c < chunks.size(); c ++)
+        {
+            if (Has (_text.c_str(), chunks[c]))
+            {
+                _text = Replace (_text.c_str(), chunks[c], newChunks[c]);
+            }
+        }
+    }    
+
+    return String (text);
+}
+
+
+List<const char*> StringHelpers::Split (const char* text)
+{
+    return Split (text, ' ');
+}
+    
+
+List<const char*> StringHelpers::Split (const char* text, char delim)
+{
+    List<const char*> splittedStr;
+    String _text = String (text);
+
+    std::stringstream stream (_text);
+
+    String buffer;
+
+    while (std::getline (stream, buffer, delim))
+    {
+        splittedStr.push_back (buffer.c_str());
+    }
+
+    return splittedStr;
+}
+
+
+List<String> StringHelpers::Split (String text)
+{
+    return Split (text, ' ');
+}
+
+
+List<String> StringHelpers::Split (String text, char delim)
 {
     List<String> splittedStr;
 
-    std::stringstream stream (s);
+    std::stringstream stream (text);
 
     String buffer;
 
@@ -206,10 +260,7 @@ List<String> StringHelpers::Split (String s, char delim)
 }
 
 
-List<String> StringHelpers::Split (String s)
-{
-    return Split (s, ' ');
-}
+
 
 
 
