@@ -17,7 +17,9 @@ String StringHelpers::CStrToStr (char* c_string)
 
 String StringHelpers::Concat (Args<const char*> chunks)
 {
-    return Concat (chunks, " ");
+    List<const char*> _chunks = ListFromArgs<const char*> (chunks);
+
+    return Concat (_chunks, String (" "));
 }
 
 
@@ -25,32 +27,13 @@ String StringHelpers::Concat (Args<const char*> chunks, const char* separator)
 {
     List<const char*> _chunks = ListFromArgs<const char*> (chunks);
     
-    return Concat (_chunks, separator);
+    return Concat (_chunks, String (separator));
 }
 
 
 String StringHelpers::Concat (List<const char*> chunks, const char* separator)
 {
-    String str = String ("");
-
-    std::stringstream stream;
-
-    for (int c = 0; c < chunks.size(); c ++)
-    {
-        const char* cChunk = chunks[c];
-        String chunk (cChunk);
-
-        stream << chunk;
-    
-        if (c < (chunks.size() - 1))
-        {
-            stream << String (separator);
-        }
-    }
-
-    str = stream.str();
-
-    return str;
+    return Concat (chunks, String (separator));
 }
 
 
@@ -58,13 +41,22 @@ String StringHelpers::Concat (Args<const char*> chunks, String separator)
 {
     List<const char*> _chunks = ListFromArgs<const char*> (chunks);
 
-    return Concat (_chunks, separator.c_str());
+    return Concat (_chunks, separator);
 }
 
 
 String StringHelpers::Concat (List<const char*> chunks, String separator)
 {
-    return Concat (chunks, separator.c_str());
+    List<String> _chunks;
+
+    for (int c = 0; c < chunks.size(); c ++)
+    {
+        String _chunk (chunks[c]);
+
+        _chunks.push_back (_chunk);
+    }
+
+    return Concat (_chunks, separator);
 }
 
 
@@ -72,7 +64,7 @@ String StringHelpers::Concat (Args<String> chunks)
 {
     List<String> _chunks = ListFromArgs<String> (chunks);
 
-    return Concat (_chunks, " ");
+    return Concat (_chunks, String (" "));
 }
 
 
@@ -80,25 +72,13 @@ String StringHelpers::Concat (Args<String> chunks, const char* separator)
 {
     List<String> _chunks = ListFromArgs<String> (chunks);
 
-    return Concat (_chunks, separator);
+    return Concat (_chunks, String (separator));
 }
 
 
 String StringHelpers::Concat (List<String> chunks, const char* separator)
-{
-    String str = String ("");
-
-    for (int c = 0; c < chunks.size(); c ++)
-    {
-        str += chunks[c];
-
-        if (c < (chunks.size() - 1))
-        {
-            str += separator;
-        }
-    }
-
-    return str;
+{    
+    return Concat (chunks, String (separator));
 }
 
 
@@ -106,13 +86,31 @@ String StringHelpers::Concat (Args<String> chunks, String separator)
 {    
     List<String> _chunks = ListFromArgs<String> (chunks);
 
-    return Concat (chunks, separator.c_str());
+    return Concat (chunks, separator);
 }
 
 
 String StringHelpers::Concat (List<String> chunks, String separator)
 {
-    return Concat (chunks, separator.c_str());
+    //return Concat (chunks, separator.c_str());
+    String str;
+    std::stringstream sStream;
+
+    for (int c = 0; c < chunks.size(); c ++)
+    {
+        String chunk = chunks[c];
+
+        sStream << chunk;
+
+        if (c < (chunks.size() - 1))
+        {
+            sStream << separator;
+        }
+    }
+
+    str = sStream.str ();
+
+    return str;
 }
 
 
