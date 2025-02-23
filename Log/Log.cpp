@@ -9,25 +9,29 @@ const char* Log::DEFAULT_INFO_TAG = "[INFO]";
 const char* Log::DEFAULT_WARNING_TAG = "[WARNING]";
 
 
-const char * Log::replacePlaceholders (const char* message, 
-                                       Args<const char*> params)
+String Log::replacePlaceholders (const char* message, 
+                                 Args<const char*> params)
 {
     String _message (message);
     List<const char*> _params = ListFromArgs<const char*> (params);
 
     for (int p = 0; p < _params.size(); p ++)
     {
-        const char* placeholder = StringHelpers::Concat ({
+        String placeholder = StringHelpers::Concat ({
             "${", 
-            StringHelpers::IntToStr (p), 
+            StringHelpers::IntToStr(p).c_str(), 
             "}"
         }).c_str ();
 
         if (StringHelpers::Has (message, placeholder))
         {
-            StringHelpers::Replace (message, placeholder, _params[p]);
+            _message = StringHelpers::Replace (message, 
+                                               placeholder.c_str(), 
+                                               _params[p]);
         }
     }
+
+    return _message;
 }
 
 

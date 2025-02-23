@@ -17,8 +17,8 @@ class Log
         static const char* DEFAULT_INFO_TAG;
         static const char* DEFAULT_WARNING_TAG;
 
-        static const char * replacePlaceholders (const char* message, 
-                                                 Args<const char*> params);
+        static String replacePlaceholders (const char* message, 
+                                           Args<const char*> params);
 
     public:
         static void d (const char* message);

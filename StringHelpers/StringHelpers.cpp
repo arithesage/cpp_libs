@@ -17,7 +17,7 @@ String StringHelpers::CStrToStr (char* c_string)
 
 String StringHelpers::Concat (Args<const char*> chunks)
 {
-    return Concat (chunks, "");
+    return Concat (chunks, " ");
 }
 
 
@@ -33,15 +33,22 @@ String StringHelpers::Concat (List<const char*> chunks, const char* separator)
 {
     String str = String ("");
 
+    std::stringstream stream;
+
     for (int c = 0; c < chunks.size(); c ++)
     {
-        str += String (chunks[c]);
+        const char* cChunk = chunks[c];
+        String chunk (cChunk);
 
+        stream << chunk;
+    
         if (c < (chunks.size() - 1))
         {
-            str += separator;
+            stream << String (separator);
         }
     }
+
+    str = stream.str();
 
     return str;
 }
@@ -65,7 +72,7 @@ String StringHelpers::Concat (Args<String> chunks)
 {
     List<String> _chunks = ListFromArgs<String> (chunks);
 
-    return Concat (_chunks, "");
+    return Concat (_chunks, " ");
 }
 
 
@@ -162,6 +169,14 @@ String StringHelpers::Replace (const char* text,
     }
 
     return _text;
+}
+
+
+String StringHelpers::Replace (String text, 
+                               const char* chunk, 
+                               const char* newChunk)
+{
+    return Replace (text.c_str(), chunk, newChunk);
 }
 
 
