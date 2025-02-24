@@ -33,43 +33,4 @@ List<Type> ListFromArgs (Args<Type> params)
 }
 
 
-// Obtain a List (vector) from the params.
-// This version allows changing the List type.
-//
-// ATTENTION: The destination type MUST BE compatible.
-// That is: The destination type needs a constructor to
-// create a new object from the other type.
-template <typename ArgsType, typename ToType>
-List<ToType> ListFromArgs (Args<ArgsType> params)
-{
-    List<ToType> list;
-
-    typename Args<ArgsType>::iterator it;
-
-    bool conversionTested = false;
-
-    for (it = params.begin(); it != params.end(); it ++)
-    {
-        if (!conversionTested)
-        {
-            ToType* test = new ToType (*it);
-
-            if (test == nullptr)
-            {
-                return list;
-            }
-            else
-            {
-                delete test;
-                conversionTested = true;
-            }
-        }        
-
-        list.push_back (ToType (*it));
-    }
-
-    return list;
-}
-
-
 #endif

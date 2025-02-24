@@ -140,15 +140,25 @@ String StringHelpers::FloatToStr (float value)
 
 bool StringHelpers::Has (const char* text, const char* chunk)
 {
-    String _text (text);
-
-    return (_text.find (chunk) >= -1);
+    return Has (String (text), String (chunk));
 }
 
 
 bool StringHelpers::Has (const char* text, String chunk)
 {    
-    return Has (text, chunk.c_str ());
+    return Has (String (text), chunk);
+}
+
+
+bool StringHelpers::Has (String text, String chunk)
+{
+    return (text.find (chunk) != String::npos);
+}
+
+
+bool StringHelpers::Has (String text, const char* chunk)
+{
+    return (text.find (chunk) != String::npos);
 }
 
 
@@ -156,17 +166,7 @@ String StringHelpers::Replace (const char* text,
                                const char* chunk, 
                                const char* newChunk)
 {
-    String _text (text);
-    String _chunk (chunk);
-
-    int chunkPos = _text.find (_chunk);
-
-    if (chunkPos >= 0)
-    {
-        _text.replace (chunkPos, _chunk.size(), newChunk);
-    }
-
-    return _text;
+    return Replace (String (text), String (chunk), String (newChunk));
 }
 
 
@@ -174,7 +174,25 @@ String StringHelpers::Replace (String text,
                                const char* chunk, 
                                const char* newChunk)
 {
-    return Replace (text.c_str(), chunk, newChunk);
+    return Replace (text, String (chunk), String (newChunk));
+}
+
+
+// Replaces the given chunk with the provided newChunk in text
+String StringHelpers::Replace (String text,
+                               String chunk,
+                               String newChunk)
+{
+    String _text (text);
+
+    int chunkPos = _text.find (chunk);
+
+    if (chunkPos >= 0)
+    {
+        _text = _text.replace (chunkPos, chunk.size(), newChunk);
+    }
+
+    return _text;
 }
 
 

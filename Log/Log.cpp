@@ -12,23 +12,29 @@ const char* Log::DEFAULT_WARNING_TAG = "[WARNING]";
 String Log::replacePlaceholders (const char* message, 
                                  Args<const char*> params)
 {
-    String _message (message);
-    List<const char*> _params = ListFromArgs<const char*> (params);
+    String _message = String (message);
+    
+    Args<const char*>::iterator it;
+    int p = 0;
 
-    for (int p = 0; p < _params.size(); p ++)
+    for (it = params.begin(); it != params.end(); it ++)
     {
+        String param = String (*it);
+
         String placeholder = StringHelpers::Concat ({
             "${", 
             StringHelpers::IntToStr(p).c_str(), 
             "}"
-        }).c_str ();
+        }, "");
 
-        if (StringHelpers::Has (message, placeholder))
+        if (StringHelpers::Has (_message, placeholder))
         {
-            _message = StringHelpers::Replace (message, 
-                                               placeholder.c_str(), 
-                                               _params[p]);
+            _message = StringHelpers::Replace (_message,
+                                               placeholder,
+                                               param);
         }
+
+        p ++;
     }
 
     return _message;

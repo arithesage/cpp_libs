@@ -75,6 +75,12 @@ class StringHelpers
         // Returns if the given text has 'chunk' in it
         static bool Has (const char* text, String chunk);
 
+        // Returns if the given text has 'chunk' in it
+        static bool Has (String text, String chunk);
+
+        // Returns if the given text has 'chunk' in it
+        static bool Has (String text, const char* chunk);
+
         // Replaces the given chunk with the provided newChunk in text
         static String Replace (const char* text, 
                                const char* chunk, 
@@ -84,6 +90,11 @@ class StringHelpers
         static String Replace (String text, 
                                const char* chunk, 
                                const char* newChunk);
+
+        // Replaces the given chunk with the provided newChunk in text
+        static String Replace (String text,
+                               String chunk,
+                               String newChunk);
 
         // Replace all ocurrences of 'chunk' with the provided 'newChunk'
         static String ReplaceAll (const char* text,
