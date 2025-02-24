@@ -1,15 +1,8 @@
 #ifndef __TREENODE_
 #define __TREENODE_
 
-#include <iostream>
-#include <vector>
-
-template <typename DataType>
-using List = std::vector<DataType>;
-
-using String = std::string;
-
-
+#include <String.hpp>
+#include <List.hpp>
 
 
 // Generic n-ary tree nodes

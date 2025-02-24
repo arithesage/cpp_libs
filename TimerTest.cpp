@@ -1,9 +1,5 @@
-#include <iostream>
+#include <Terminal.hpp>
 #include <Timer.hpp>
-
-using std::cerr;
-using std::cout;
-using std::endl;
 
 
 Timer timer;

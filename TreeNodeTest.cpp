@@ -1,7 +1,3 @@
-#include <iostream>
-
-using String = std::string;
-
 #include <TreeNode.hpp>
 
 
