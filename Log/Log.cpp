@@ -1,6 +1,7 @@
 #include <Log.hpp>
 
 #include <StringHelpers.hpp>
+#include <ANSI.hpp>
 
 
 const char* Log::DEFAULT_DEBUG_TAG = "[DEBUG]";
@@ -56,13 +57,34 @@ void Log::d (const char* message, Args<const char*> params)
 
 void Log::e (const char* error)
 {
-    std::cerr << DEFAULT_ERROR_TAG << " " << error << std::endl;
+    String _tag = ANSI::Format (
+        DEFAULT_ERROR_TAG,
+        ANSI::Color::BRIGHT_RED
+    );
+
+    String _error = ANSI::Format (
+        error,
+        ANSI::Color::BRIGHT_RED
+    );
+
+    std::cerr << _tag << " " << _error << std::endl;
 }
 
 
 void Log::e (const char* error, Args<const char*> params)
 {
-    std::cerr << DEFAULT_ERROR_TAG << " ";
+
+    String _tag = ANSI::Format (
+        DEFAULT_ERROR_TAG,
+        ANSI::Color::BRIGHT_RED
+    );
+
+    String _error = ANSI::Format (
+        error,
+        ANSI::Color::BRIGHT_RED
+    );
+
+    std::cerr << _tag << " ";
     std::cerr << replacePlaceholders (error, params) << std::endl;
 }
 
@@ -71,7 +93,17 @@ void Log::ec (const char* error, const char* cause)
 {
     e (error);
 
-    std::cerr << "[CAUSE]: " << cause << std::endl;
+    String _tag = ANSI::Format (
+        "[CAUSE]: ",
+        ANSI::Color::BRIGHT_RED
+    );
+
+    String _cause = ANSI::Format (
+        cause,
+        ANSI::Color::BRIGHT_RED
+    );
+
+    std::cerr << _tag << _cause << std::endl;
     std::cerr << std::endl;
 }
 
@@ -81,7 +113,17 @@ void Log::ec (const char* error, Args<const char*> params,
 {
     e (error, params);
 
-    std::cerr << "[CAUSE]: " << cause << std::endl;
+    String _tag = ANSI::Format (
+        "[CAUSE]: ",
+        ANSI::Color::BRIGHT_RED
+    );
+
+    String _cause = ANSI::Format (
+        cause,
+        ANSI::Color::BRIGHT_RED
+    );
+
+    std::cerr << _tag  << _cause << std::endl;
     std::cerr << std::endl;
 }
 

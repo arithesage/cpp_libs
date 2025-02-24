@@ -4,9 +4,7 @@
 
 int main ()
 {
-    const char* name = "Ari";
-
-    Log::i ("Hello, ${0}.", {name});
+    Log::e ("Failed!");
 
     return 0;
 }
