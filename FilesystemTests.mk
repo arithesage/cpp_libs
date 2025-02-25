@@ -1,16 +1,18 @@
 # ==================== CONFIG ============================================
-PROJECT_NAME					:= logtest
-MAIN							:= LogTest.cpp
+PROJECT_NAME					:= filesystem_tests
+MAIN							:= FilesystemTests.cpp
 LIBS							:=
 CFLAGS							:=
-CXXFLAGS						:=
+CXXFLAGS						:= -std=c++17
 LDFLAGS							:=
 
 C_DEPS							:=
 
 CPP_DEPS						:= ANSI/ANSI.cpp
-CPP_DEPS						+= StringHelpers/StringHelpers.cpp
 CPP_DEPS						+= Log/Log.cpp
+CPP_DEPS						+= SystemHelpers/SystemHelpers.cpp
+CPP_DEPS						+= StringHelpers/StringHelpers.cpp
+CPP_DEPS						+= FilesystemHelpers/FilesystemHelpers.cpp
 
 INCLUDE							:= .
 
@@ -60,7 +62,7 @@ ifdef RELEASE
 	CXXFLAGS					+= -O3
 else
 	CFLAGS						+= -g
-	CXXFLAGS					+= -O3
+	CXXFLAGS					+= -g
 endif
 
 include Commands.mk

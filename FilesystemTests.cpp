@@ -5,7 +5,7 @@
 
 int main ()
 {
-    String path = FSHelpers::MakePath ({ ".", "README.md" });
+    String path = FSHelpers::MakePath ({ ".", "README.txt" });
 
     if (FSHelpers::IsFile (path))
     {
