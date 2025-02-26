@@ -1,3 +1,7 @@
+# ========================================================================
+# Makefile oriented to build a program to test a library.
+# ========================================================================
+
 # ==================== CONFIG ============================================
 PROJECT_NAME					:= logtest
 MAIN							:= LogTest.cpp
@@ -75,7 +79,7 @@ OBJS							:= $(foreach src,${SRCS},$(call SRC2OBJ,${src}))
 # ================ BUILD RECIPES =========================================
 .PHONY: all clean info run
 
-all: ${OBJ_PATH} ${EXEC}
+all: ${OBJS_PATH} ${EXEC}
 
 
 clean:
@@ -105,17 +109,12 @@ ${OBJS_PATH}:
 	$(shell ${MKTREE} ${OBJS_PATH})
 
 
-# Builds all C files mirroring their folder tree
-${OBJS_PATH}/%.o: %.c
-	$(shell ${MKTREE} $(dir $@))
-	${C} -c $< -o $@ ${INCLUDE} ${CFLAGS}
+# Builds all CPP files. Each obj file will be placed under ${OBJS_PATH}
+$(foreach src,${C_SRCS},$(eval $(call BUILD_C,${src})))
 
 
-# Builds all CPP files mirroring their folder tree
-${OBJS_PATH}/%.o: %.cpp
-	$(shell ${MKTREE} $(dir $@))
-	${CXX} -c $< -o $@ ${INCLUDE} ${CXXFLAGS}
-
+# Builds all CPP files. Each obj file will be placed under ${OBJS_PATH}
+$(foreach src,${CPP_SRCS},$(eval $(call BUILD_CPP,${src})))
 
 
 info:
