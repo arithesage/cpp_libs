@@ -9,7 +9,7 @@ class Resource;
 
 
 /**
- * A pool containing resources of type R
+ * A resource pool
  */
 template <typename R = Resource>
 class Pool

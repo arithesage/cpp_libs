@@ -18,6 +18,32 @@ class SDLQuitEvent;
  */
 class SDL
 {
+    public:
+    
+    /**
+     * Base class for all resources used in a SDL project
+     */
+    class Resource
+    {
+        protected:
+            const char* name = "";
+
+        public:
+            Resource (const char* name);
+            ~Resource ();
+
+            /**
+             * Frees this resource
+             */
+            virtual void Dispose () {}
+
+            /**
+             * Returns this resource name
+             */
+            const char* Name ();
+    };
+
+
     private:
         static SDL_Event event;
         static SDL_Renderer* renderer;

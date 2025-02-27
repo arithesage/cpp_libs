@@ -6,6 +6,26 @@
 #include <Log.hpp>
 
 
+SDL::Resource::Resource (const char* name)
+{
+    this->name = name;
+}
+
+
+SDL::Resource::~Resource ()
+{
+    Dispose ();
+}
+
+
+const char* SDL::Resource::Name ()
+{
+    return name;
+}
+
+
+
+
 SDL_Event SDL::event;
 SDL_Renderer* SDL::renderer = nullptr;
 SDL_Window* SDL::window = nullptr;
