@@ -1,7 +1,5 @@
 #include <SDL.hpp>
 
-#include <SDL2/SDL.h>
-
 #include <SDLEventListener.hpp>
 #include <SDLKeyboardListener.hpp>
 #include <SDLEvents.hpp>
@@ -11,7 +9,6 @@
 SDL_Event SDL::event;
 SDL_Renderer* SDL::renderer = nullptr;
 SDL_Window* SDL::window = nullptr;
-
 
 SDLKeyboardEvent SDL::onKey;
 SDLQuitEvent SDL::onQuit;
@@ -193,6 +190,32 @@ void SDL::DestroyTexture (SDL_Texture* texture)
     {
         SDL_DestroyTexture (texture);
     }
+}
+
+
+void SDL::DrawOn (SDL_Surface* image)
+{
+    if (image != nullptr)
+    {
+        SDL_LockSurface (image);
+
+        SDL_UnlockSurface (image);
+    }
+}
+
+
+SDL_Surface* SDL::GenerateImage (int width, int height, int depth)
+{
+    SDL_Surface* image = SDL_CreateRGBSurface (
+        0,
+        width,
+        height,
+        depth,
+        0,
+        0,
+        0,
+        0
+    );
 }
 
 

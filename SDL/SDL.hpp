@@ -1,11 +1,10 @@
 #ifndef __SDL__
 #define __SDL__
 
+#include <SDL2/SDL.h>
+
 #include <FunctionPointers.hpp>
 
-struct SDL_Event;
-struct SDL_Renderer;
-struct SDL_Window;
 
 class SDLEventListener;
 class SDLKeyboardListener;
@@ -76,7 +75,7 @@ class SDL
         /**
          * Creates a texture from a surface (uploads an image to the GPU VRAM)
          */
-        static SDL_Texture* SDL::CreateTextureFrom (SDL_Surface* surface);
+        static SDL_Texture* CreateTextureFrom (SDL_Surface* surface);
 
 
         /**
@@ -90,19 +89,31 @@ class SDL
         /**
          * Frees the RAM used by a surface
          */
-        static void SDL::DestroySurface (SDL_Surface* surface);
+        static void DestroySurface (SDL_Surface* surface);
 
 
         /**
          * Frees the VRAM used by a texture
          */
-        static void SDL::DestroyTexture (SDL_Texture* texture);
+        static void DestroyTexture (SDL_Texture* texture);
+
+
+        /**
+         * Draws on the given image
+         */
+        static void DrawOn (SDL_Surface* image);
+
+
+        /**
+         * Generates an empty RGB image with the given config
+         */
+        static SDL_Surface* GenerateImage (int width, int height, int depth);
 
 
         /**
          * Returns the name of the given key
          */
-        static const char* SDL::KeyName (SDL_Keycode key);
+        static const char* KeyName (SDL_Keycode key);
 
 
         /**
@@ -141,13 +152,13 @@ class SDL
         /**
          * Refresh the window
          */
-        static void SDL::RefreshWindow ();
+        static void RefreshWindow ();
 
 
         /**
          * Returns the renderer
          */
-        static SDL_Renderer* SDL::Renderer ();
+        static SDL_Renderer* Renderer ();
 
 
         /**

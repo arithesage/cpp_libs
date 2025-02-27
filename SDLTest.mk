@@ -15,8 +15,12 @@ C_DEPS							:=
 CPP_DEPS						:= ANSI/ANSI.cpp
 CPP_DEPS						+= StringHelpers/StringHelpers.cpp
 CPP_DEPS						+= Log/Log.cpp
+CPP_DEPS						+= SystemHelpers/SystemHelpers.cpp
+CPP_DEPS						+= FilesystemHelpers/FilesystemHelpers.cpp
+CPP_DEPS						+= Pool/Resource.cpp
+CPP_DEPS						+= SDL/SDL.cpp
 
-INCLUDE							:= .
+INCLUDE							:= . SDL/Events/
 
 
 # =================== INTERNALS ==========================================

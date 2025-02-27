@@ -6,7 +6,7 @@
 #include <Listener.hpp>
 
 
-class SDLKeyListener : public Listener2P<bool, SDL_Keycode>
+class SDLKeyboardListener : public Listener2P<bool, SDL_Keycode>
 {
     protected:
         virtual void onKeyPressed (SDL_Keycode key) = 0;

@@ -6,7 +6,7 @@
 #include <Event.hpp>
 
 
-class SDLKeyEvent : public Event2P<bool, SDL_Keycode>
+class SDLKeyboardEvent : public Event2P<bool, SDL_Keycode>
 {
 
 };
