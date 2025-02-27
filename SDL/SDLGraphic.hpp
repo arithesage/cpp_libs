@@ -20,7 +20,10 @@ class SDLGraphic : public Resource
         void freeTexture ();
 
     public:
+        SDL_Surface* Image ();
         SDL_Texture* Texture ();
+        int Width ();
+        int Height ();
 };
 
 #endif

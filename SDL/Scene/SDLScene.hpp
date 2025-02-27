@@ -2,7 +2,7 @@
 #define __SDL_SCENE__
 
 #include <List.hpp>
-
+#include <SDLEntityDestructionListener.hpp>
 
 class Entity;
 
@@ -10,10 +10,12 @@ class Entity;
 /**
  * Scene is just a container of entities
  */
-class Scene
+class Scene : public EntityDestructionListener
 {
     protected:
         List<Entity*> entities;
+
+        void onEntityDestroyed (Entity* entity) override;
 
     public:
         Scene ();

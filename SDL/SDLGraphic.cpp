@@ -36,6 +36,12 @@ void SDLGraphic::freeTexture ()
 }
 
 
+SDL_Surface* SDLGraphic::Image ()
+{
+    return image;
+}
+
+
 SDL_Texture* SDLGraphic::Texture ()
 {
     if (image == nullptr)
@@ -58,4 +64,26 @@ SDL_Texture* SDLGraphic::Texture ()
     }
 
     return texture;
+}
+
+
+int SDLGraphic::Width ()
+{
+    if (image == nullptr)
+    {
+        return -1;
+    }
+
+    return image->w;
+}
+
+
+int SDLGraphic::Height ()
+{
+    if (image == nullptr)
+    {
+        return -1;
+    }
+
+    return image->h;
 }

@@ -5,7 +5,7 @@
 #include <SDLEntity.hpp>
 
 
-class EntityDestructionListener : Listener1P<Entity*>
+class EntityDestructionListener : public Listener1P<Entity*>
 {
     protected:
         virtual void onEntityDestroyed (Entity* entity) = 0;

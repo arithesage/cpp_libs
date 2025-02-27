@@ -11,17 +11,23 @@ Scene::Scene ()
 
 Scene::~Scene ()
 {
-    for (SDLEntity* entity : entities)
+    for (Entity* entity : entities)
     {
         delete entity;
     }
 }
 
 
-void Scene::Spawn (SDLEntity* entity)
+void Scene::Spawn (Entity* entity)
 {
     if (entity != nullptr)
     {
         entities.push_back (entity);
     }
+}
+
+
+void Scene::onEntityDestroyed (Entity* entity)
+{
+    
 }

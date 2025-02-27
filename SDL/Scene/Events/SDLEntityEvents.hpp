@@ -4,9 +4,9 @@
 #include <Event.hpp>
 
 
-class SDLEntity;
+class Entity;
 
-class SDLEntityDestroyedEvent : Event1P<SDLEntity*>
+class EntityDestroyedEvent : public Event1P<Entity*>
 {
     
 };
