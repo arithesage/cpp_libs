@@ -2,38 +2,34 @@
 
 #include <SDL2/SDL.h>
 
-#include <SDLGraphic.hpp>
+//#include <SDLGraphic.hpp>
 
-
+/*
 Sprite::Sprite (SDLGraphic* graphic)
 {
     if (graphic != nullptr)
     {
-        rect = new SDL_Rect();
-        rect->w = graphic->Width();
-        rect->h = graphic->Height();
+        width = graphic->Width ();
+        height = graphic->Height ();
     }
 }
 
 
 Sprite::~Sprite ()
 {
-    if (rect != nullptr)
-    {
-        delete rect;
-    }
-}
 
+}
+*/
 
 int Sprite::Width ()
 {
-    return rect->w;
+    return width;
 }
 
 
 int Sprite::Height ()
 {
-    return rect->h;
+    return height;
 }
 
 

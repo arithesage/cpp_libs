@@ -42,6 +42,12 @@ SDL_Surface* SDLGraphic::Image ()
 }
 
 
+bool SDLGraphic::IsValid ()
+{
+    return (image != nullptr);
+}
+
+
 SDL_Texture* SDLGraphic::Texture ()
 {
     if (image == nullptr)

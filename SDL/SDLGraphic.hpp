@@ -21,6 +21,7 @@ class SDLGraphic : public Resource
 
     public:
         SDL_Surface* Image ();
+        bool IsValid () override;
         SDL_Texture* Texture ();
         int Width ();
         int Height ();

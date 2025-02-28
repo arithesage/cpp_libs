@@ -18,32 +18,6 @@ class SDLQuitEvent;
  */
 class SDL
 {
-    public:
-    
-    /**
-     * Base class for all resources used in a SDL project
-     */
-    class Resource
-    {
-        protected:
-            const char* name = "";
-
-        public:
-            Resource (const char* name);
-            ~Resource ();
-
-            /**
-             * Frees this resource
-             */
-            virtual void Dispose () {}
-
-            /**
-             * Returns this resource name
-             */
-            const char* Name ();
-    };
-
-
     private:
         static SDL_Event event;
         static SDL_Renderer* renderer;
@@ -144,11 +118,11 @@ class SDL
 
         /**
          * Sets a callback for keyboard events
-         * 
-         * @param callback Provides two parameters: 
-         *                 - the status of the key 
+         *
+         * @param callback Provides two parameters:
+         *                 - the status of the key
          *                   (false: released, true: pressed)
-         *                 
+         *
          *                 - the key itself
          */
         static void OnKey (FuncPtrP2<bool, SDL_Keycode> callback);
@@ -156,8 +130,8 @@ class SDL
 
         /**
          * Subscribe for keyboard events.
-         * 
-         * The event provides the status of the key 
+         *
+         * The event provides the status of the key
          * (false: released, true: pressed) and the key itself.
          */
         static void OnKey (SDLKeyboardListener* listener);
@@ -179,6 +153,15 @@ class SDL
          * Refresh the window
          */
         static void RefreshWindow ();
+
+
+        /**
+         * Draws a texture
+         *
+         * @param texture What to draw
+         * @param rect Where are we drawing (coords) the texture and its size
+         */
+        static void Render (SDL_Texture* texture, SDL_Rect* rect);
 
 
         /**

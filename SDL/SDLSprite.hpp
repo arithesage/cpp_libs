@@ -10,15 +10,17 @@ class Sprite
 {
     private:
         SDL_Texture* texture = nullptr;
-        SDL_Rect* rect = nullptr;
+
+        int width = 0;
+        int height = 0;
 
     public:
-        Sprite (SDLGraphic* graphic);
-        ~Sprite ();
+//        Sprite (SDLGraphic* graphic);
+//        ~Sprite ();
 
         int Width ();
         int Height ();
-        
+
         SDL_Texture* Texture ();
 };
 

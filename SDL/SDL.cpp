@@ -6,26 +6,6 @@
 #include <Log.hpp>
 
 
-SDL::Resource::Resource (const char* name)
-{
-    this->name = name;
-}
-
-
-SDL::Resource::~Resource ()
-{
-    Dispose ();
-}
-
-
-const char* SDL::Resource::Name ()
-{
-    return name;
-}
-
-
-
-
 SDL_Event SDL::event;
 SDL_Renderer* SDL::renderer = nullptr;
 SDL_Window* SDL::window = nullptr;
@@ -63,7 +43,7 @@ bool SDL::Init (int systems)
 
     Log::i ("SDL initialized.");
     ready = true;
-    
+
     return true;
 }
 
@@ -134,9 +114,9 @@ bool SDL::CreateWindow (const char* windowTitle, int width, int height)
     }
 
     renderer = SDL_CreateRenderer (
-        window, 
+        window,
         -1,
-        SDL_RENDERER_ACCELERATED | 
+        SDL_RENDERER_ACCELERATED |
         SDL_RENDERER_PRESENTVSYNC |
         SDL_RENDERER_TARGETTEXTURE
     );
@@ -157,7 +137,7 @@ void SDL::CheckForEvents ()
 
     if (event.type == SDL_QUIT)
     {
-        
+
     }
 
     if ((event.type == SDL_KEYUP) || (event.type == SDL_KEYDOWN))
@@ -172,7 +152,7 @@ SDL_Texture* SDL::CreateTextureFrom (SDL_Surface* surface)
     if (renderer == nullptr)
     {
         Log::e ("Cannot access renderer. Create a window first.");
-        return nullptr; 
+        return nullptr;
     }
 
     SDL_Texture* texture = nullptr;
@@ -286,6 +266,15 @@ void SDL::RefreshWindow ()
     if (renderer != nullptr)
     {
         SDL_RenderPresent (renderer);
+    }
+}
+
+
+void SDL::Render (SDL_Texture* texture, SDL_Rect* rect)
+{
+    if ((texture != nullptr) && (rect != nullptr))
+    {
+        SDL_RenderCopy (renderer, texture, NULL, rect);
     }
 }
 

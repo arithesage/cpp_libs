@@ -15,12 +15,15 @@ class Scene : public EntityDestructionListener
     protected:
         List<Entity*> entities;
 
-        void onEntityDestroyed (Entity* entity) override;
-
     public:
         Scene ();
         ~Scene ();
 
+    private:
+        void onEntityDestroyed (Entity* entity) override;
+
+    public:
+        void Render ();
         void Spawn (Entity* entity);
 };
 
